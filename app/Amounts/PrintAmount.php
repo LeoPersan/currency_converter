@@ -2,6 +2,8 @@
 
 namespace App\Amounts;
 
+use InvalidArgumentException;
+
 class PrintAmount implements AmountInterface
 {
     private $amount;
@@ -15,7 +17,9 @@ class PrintAmount implements AmountInterface
 
     public function setCurrency(string $currency)
     {
-        $this->currency = $currency;
+        if (!preg_match('/^[A-Z]{3}$/i', $currency))
+            throw new InvalidArgumentException("\"$currency\" is a invalid currency");
+        $this->currency = strtoupper($currency);
         return $this;
     }
 
