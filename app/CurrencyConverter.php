@@ -63,6 +63,8 @@ class CurrencyConverter
         if (!in_array($to, $this->quotation_parser->getValidCurrencies()))
             throw new InvalidArgumentException("Invalid currency: " . $to);
         
-        return $this->converter->run($from, $to, $amount);
+        if (($new_amount = $this->converter->run($from, $to, $amount)) !== false)
+            return $new_amount;
+        throw new InvalidArgumentException("Conversion \"$from\" => \"$to\" cannot be done");;
     }
 }

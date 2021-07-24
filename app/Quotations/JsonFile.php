@@ -15,6 +15,7 @@ class JsonFile implements QuotationInterface
             $this->currencies[] = $quotation->from;
             $this->currencies[] = $quotation->to;
         }
+        $this->currencies = array_values($this->currencies);
         return $this;
     }
 

@@ -8,21 +8,35 @@ use InvalidArgumentException;
 class Converter implements ConverterInterface
 {
     private $quotation_parser;
-    private $multipliers;
+    private $skip = [];
 
     public function loadQuotations(QuotationInterface $quotation_parser)
     {
         $this->quotation_parser = $quotation_parser;
-        foreach ($this->quotation_parser->getQuotations() as $quotation) {
-            $this->multipliers[$quotation->from . '_' . $quotation->to] = $quotation->quotation;
-            $this->multipliers[$quotation->to . '_' . $quotation->from] = 1 / $quotation->quotation;
-        }
     }
 
     public function run(string $from, string $to, float $amount)
     {
-        if (!isset($this->multipliers[$from . '_' . $to]))
-            throw new InvalidArgumentException("Conversion \"$from\" => \"$to\" cannot be done");
-        return $amount * $this->multipliers[$from . '_' . $to];
+        foreach ($this->quotation_parser->getQuotations() as $key => $quotation) {
+            if (in_array($key, $this->skip))
+                continue;
+            $this->skip[] = $key;
+            if ($quotation->from == $from) {
+                $new_amount = $amount * $quotation->quotation;
+                if ($quotation->to == $to)
+                    return $new_amount;
+                if (($new_amount = $this->run($quotation->to, $to, $new_amount)) !== false)
+                    return $new_amount;
+            } else if ($quotation->to == $from) {
+                $new_amount = $amount * (1 / $quotation->quotation);
+                if ($quotation->from == $to)
+                    return $new_amount;
+                if (($new_amount = $this->run($quotation->from, $to, $new_amount)) !== false)
+                    return $new_amount;
+            }
+            $this->skip = array_diff($this->skip, [$key]);
+        }
+
+        return false;
     }
 }
