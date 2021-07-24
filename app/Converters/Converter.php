@@ -17,6 +17,8 @@ class Converter implements ConverterInterface
 
     public function run(string $from, string $to, float $amount)
     {
+        if ($from === $to || $amount === 0)
+            return $amount;
         foreach ($this->quotation_parser->getQuotations() as $key => $quotation) {
             if (in_array($key, $this->skip))
                 continue;
