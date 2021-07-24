@@ -1,0 +1,18 @@
+{
+    "name": "leopersan/currency_converter",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Leonardo Persan",
+            "email": "leopso1990@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
