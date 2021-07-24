@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+
+use App\Converter;
+use App\Quotations\JsonFile;
+
+require('vendor/autoload.php');
+
+if ($argc != 4)
+    die("Enter tree parameters: 1 - the amount to be converted, 2 - the source currency, 3 - the destination currency\nex: \"1.5 USD BRL\"\n");
+
+$converter = new Converter(new JsonFile, 'currencies.json');
+$converter->run($argv[2], $argv[3], $argv[1]);

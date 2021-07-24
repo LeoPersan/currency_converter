@@ -1,0 +1,27 @@
+[
+    {
+        "from": "USD",
+        "to": "BRL",
+        "quotation": 5.65
+    },
+    {
+        "from": "ARS",
+        "to": "BRL",
+        "quotation": 0.07
+    },
+    {
+        "from": "EUR",
+        "to": "USD",
+        "quotation": 1.18
+    },
+    {
+        "from": "GBP",
+        "to": "BRL",
+        "quotation": 7.24
+    },
+    {
+        "from": "BTC",
+        "to": "USD",
+        "quotation": 10700.0
+    }
+]
