@@ -13,7 +13,8 @@ class CurrencyConverter
     private $quotations;
     private $converter;
     private $quotation_parser;
-    private $print_amount;
+    private $old_amount;
+    private $new_amount;
     
     public function __construct(QuotationInterface $quotation_parser = null,
                                 ConverterInterface $converter = null,
