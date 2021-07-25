@@ -69,11 +69,6 @@ class CurrencyConverter
 
     public function run(string $from, string $to, float $old_amount)
     {
-        if (!in_array($from, $this->quotation_parser->getValidCurrencies()))
-            throw new InvalidArgumentException("Invalid currency: " . $from);
-        if (!in_array($to, $this->quotation_parser->getValidCurrencies()))
-            throw new InvalidArgumentException("Invalid currency: " . $to);
-        
         if (($new_amount = $this->converter->run($from, $to, $old_amount)) !== false) {
             $this->old_amount->setAmount($old_amount)->setCurrency($from);
             $this->new_amount->setAmount($new_amount)->setCurrency($to);

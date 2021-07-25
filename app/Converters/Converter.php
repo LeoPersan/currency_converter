@@ -3,6 +3,7 @@
 namespace App\Converters;
 
 use App\Quotations\QuotationInterface;
+use Exception;
 use InvalidArgumentException;
 
 class Converter implements ConverterInterface
@@ -17,6 +18,13 @@ class Converter implements ConverterInterface
 
     public function run(string $from, string $to, float $amount)
     {
+        if (!($this->quotation_parser instanceof QuotationInterface))
+            throw new Exception("Set the quotation parser");
+        if (!in_array($from, $this->quotation_parser->getValidCurrencies()))
+            throw new InvalidArgumentException("Invalid currency: " . $from);
+        if (!in_array($to, $this->quotation_parser->getValidCurrencies()))
+            throw new InvalidArgumentException("Invalid currency: " . $to);
+
         $this->skip = [];
         return $this->converter($from, $to, $amount);
     }
