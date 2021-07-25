@@ -1,0 +1,12 @@
+[
+    {
+        "from": "USD",
+        "to": "BRL",
+        "quotation": 5.65
+    },
+    {
+        "from": "EUR",
+        "to": "USD",
+        "quotation": 1.18
+    }
+]
