@@ -17,7 +17,13 @@ class Converter implements ConverterInterface
 
     public function run(string $from, string $to, float $amount)
     {
-        if ($from === $to || $amount === 0)
+        $this->skip = [];
+        return $this->converter($from, $to, $amount);
+    }
+
+    private function converter(string $from, string $to, float $amount)
+    {
+        if ($from === $to || $amount === (float) 0)
             return $amount;
         foreach ($this->quotation_parser->getQuotations() as $key => $quotation) {
             if (in_array($key, $this->skip))
@@ -27,13 +33,13 @@ class Converter implements ConverterInterface
                 $new_amount = $amount * $quotation->quotation;
                 if ($quotation->to == $to)
                     return $new_amount;
-                if (($new_amount = $this->run($quotation->to, $to, $new_amount)) !== false)
+                if (($new_amount = $this->converter($quotation->to, $to, $new_amount)) !== false)
                     return $new_amount;
             } else if ($quotation->to == $from) {
                 $new_amount = $amount * (1 / $quotation->quotation);
                 if ($quotation->from == $to)
                     return $new_amount;
-                if (($new_amount = $this->run($quotation->from, $to, $new_amount)) !== false)
+                if (($new_amount = $this->converter($quotation->from, $to, $new_amount)) !== false)
                     return $new_amount;
             }
             $this->skip = array_diff($this->skip, [$key]);
