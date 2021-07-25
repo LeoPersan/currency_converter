@@ -14,15 +14,15 @@ class JsonFileTest extends TestCase
 {
     public function testLoadQuotations()
     {
-        $converter = new JsonFile;
-        $converter->loadQuotations(__DIR__ . '/currencies.json');
+        $json_file = new JsonFile;
+        $json_file->loadQuotations(__DIR__ . '/currencies.json');
         $this->assertEquals(
             json_decode(file_get_contents(__DIR__ . '/currencies.json')),
-            $converter->getQuotations()
+            $json_file->getQuotations()
         );
         $this->assertEquals(
             ['USD', 'BRL', 'EUR'],
-            $converter->getValidCurrencies()
+            $json_file->getValidCurrencies()
         );
     }
 
@@ -31,15 +31,15 @@ class JsonFileTest extends TestCase
      */
     public function testLoadQuotationsFileNotExists()
     {
-        $converter = new JsonFile;
+        $json_file = new JsonFile;
         $this->expectException(FileNotFoundException::class);
-        $converter->loadQuotations(__DIR__ . '/currencies2.json');
+        $json_file->loadQuotations(__DIR__ . '/currencies2.json');
     }
 
     public function testLoadQuotationsArray()
     {
-        $converter = new JsonFile;
+        $json_file = new JsonFile;
         $this->expectException(TypeError::class);
-        $converter->loadQuotations([]);
+        $json_file->loadQuotations([]);
     }
 }
