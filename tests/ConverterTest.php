@@ -4,6 +4,8 @@ namespace Test;
 
 use App\Converters\Converter;
 use App\Quotations\QuotationInterface;
+use Exception;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use TypeError;
@@ -40,7 +42,7 @@ class ConverterTest extends TestCase
         $this->assertEquals($quotation_parser, $property->getValue($converter));
     }
 
-    public function testExceptionLoadQuotations()
+    public function testLoadQuotationsException()
     {
         $converter = new Converter;
         $this->expectException(TypeError::class);
@@ -50,6 +52,7 @@ class ConverterTest extends TestCase
     public function testRunConversionZero()
     {
         $quotation_parser = $this->createMock(QuotationInterface::class);
+        $quotation_parser->method('getValidCurrencies')->willReturn(['USD', 'BRL', 'EUR']);
         $quotation_parser->method('getQuotations')->willReturn($this->getQuotations());
         $converter = new Converter;
         $converter->loadQuotations($quotation_parser);
@@ -59,6 +62,7 @@ class ConverterTest extends TestCase
     public function testRunDirectConversion()
     {
         $quotation_parser = $this->createMock(QuotationInterface::class);
+        $quotation_parser->method('getValidCurrencies')->willReturn(['USD', 'BRL', 'EUR']);
         $quotation_parser->method('getQuotations')->willReturn($this->getQuotations());
         $converter = new Converter;
         $converter->loadQuotations($quotation_parser);
@@ -68,6 +72,7 @@ class ConverterTest extends TestCase
     public function testRunInvertedConversion()
     {
         $quotation_parser = $this->createMock(QuotationInterface::class);
+        $quotation_parser->method('getValidCurrencies')->willReturn(['USD', 'BRL', 'EUR']);
         $quotation_parser->method('getQuotations')->willReturn($this->getQuotations());
         $converter = new Converter;
         $converter->loadQuotations($quotation_parser);
@@ -77,6 +82,7 @@ class ConverterTest extends TestCase
     public function testRunIndirectConversion()
     {
         $quotation_parser = $this->createMock(QuotationInterface::class);
+        $quotation_parser->method('getValidCurrencies')->willReturn(['USD', 'BRL', 'EUR']);
         $quotation_parser->method('getQuotations')->willReturn($this->getQuotations());
         $converter = new Converter;
         $converter->loadQuotations($quotation_parser);
@@ -84,13 +90,31 @@ class ConverterTest extends TestCase
         $this->assertEquals(1, $converter->run('BRL', 'EUR', 6.667));
     }
 
-    public function testRunUknownCurrency()
+    public function testRunUknownFromCurrency()
     {
         $quotation_parser = $this->createMock(QuotationInterface::class);
-        $quotation_parser->method('getQuotations')->willReturn($this->getQuotations());
+        $quotation_parser->method('getValidCurrencies')->willReturn(['USD', 'BRL', 'EUR']);
         $converter = new Converter;
         $converter->loadQuotations($quotation_parser);
-        $this->assertFalse($converter->run('EUR', 'BTC', 1));
+        $this->expectException(InvalidArgumentException::class);
+        $converter->run('BTC', 'EUR', 1);
+    }
+
+    public function testRunUknownToCurrency()
+    {
+        $quotation_parser = $this->createMock(QuotationInterface::class);
+        $quotation_parser->method('getValidCurrencies')->willReturn(['USD', 'BRL', 'EUR']);
+        $converter = new Converter;
+        $converter->loadQuotations($quotation_parser);
+        $this->expectException(InvalidArgumentException::class);
+        $converter->run('EUR', 'BTC', 1);
+    }
+
+    public function testRunWithoutQuotationParser()
+    {
+        $converter = new Converter;
+        $this->expectException(Exception::class);
+        $converter->run('EUR', 'BTC', 1);
     }
 
     public function testRunWithArrayAsCurrency()
