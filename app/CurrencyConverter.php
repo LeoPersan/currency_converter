@@ -57,7 +57,7 @@ class CurrencyConverter
     public function loadQuotations()
     {
         if (!($this->quotation_parser instanceof QuotationInterface))
-            throw new Exception("Set the quote parser");
+            throw new Exception("Set the quotation parser");
         if (!($this->converter instanceof ConverterInterface))
             throw new Exception("Set the converter");
         if ($this->quotations === null)
