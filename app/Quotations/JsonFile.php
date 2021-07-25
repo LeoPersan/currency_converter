@@ -2,6 +2,9 @@
 
 namespace App\Quotations;
 
+use App\Exceptions\FileNotFoundException;
+use TypeError;
+
 class JsonFile implements QuotationInterface
 {
     private $quotations;
@@ -9,13 +12,19 @@ class JsonFile implements QuotationInterface
 
     public function loadQuotations($quotations)
     {
+        if (!is_string($quotations))
+            throw new TypeError("Argument \$quotations in ".__CLASS__."::".__METHOD__."() must be of the type string, ".gettype($quotations)." given");
+
+        if (!is_file($quotations))
+            throw new FileNotFoundException($quotations);
+
         $this->quotations = json_decode(file_get_contents($quotations));
         $this->currencies = [];
         foreach ($this->quotations as $quotation) {
             $this->currencies[] = $quotation->from;
             $this->currencies[] = $quotation->to;
         }
-        $this->currencies = array_values($this->currencies);
+        $this->currencies = array_unique($this->currencies);
         return $this;
     }
 
