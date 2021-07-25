@@ -23,14 +23,14 @@ class PrintAmountTest extends TestCase
         $this->assertEquals($amount->getAmount(), 0.0000000001);
     }
 
-    public function testExceptionWithStringInSetAmount()
+    public function testSetAmountExceptionWithString()
     {
         $amount = new PrintAmount;
         $this->expectException(TypeError::class);
         $amount->setAmount('');
     }
 
-    public function testExceptionWithArrayInSetAmount()
+    public function testSetAmountExceptionWithArray()
     {
         $amount = new PrintAmount;
         $this->expectException(TypeError::class);
@@ -48,21 +48,21 @@ class PrintAmountTest extends TestCase
         $this->assertEquals($amount->getFormatedAmount(), '0.0000000001 EUR');
     }
 
-    public function testExceptionWithIntInSetCurrency()
+    public function testSetCurrencyExceptionWithInt()
     {
         $amount = new PrintAmount;
         $this->expectException(InvalidArgumentException::class);
         $amount->setCurrency(1);
     }
 
-    public function testExceptionWithInvalidCurrencyInSetCurrency()
+    public function testSetCurrencyExceptionWithInvalidCurrency()
     {
         $amount = new PrintAmount;
         $this->expectException(InvalidArgumentException::class);
         $amount->setCurrency('asdc');
     }
 
-    public function testExceptionWithArrayInSetCurrency()
+    public function testSetCurrencyExceptionWithArray()
     {
         $amount = new PrintAmount;
         $this->expectException(TypeError::class);
