@@ -7,11 +7,11 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
+/**
+ * @covers \App\Amounts\PrintAmount
+ */
 class PrintAmountTest extends TestCase
 {
-    /**
-     * @covers \App\Amounts\PrintAmount
-     */
     public function testSetAmount()
     {
         $amount = new PrintAmount;
@@ -23,9 +23,6 @@ class PrintAmountTest extends TestCase
         $this->assertEquals($amount->getAmount(), 0.0000000001);
     }
 
-    /**
-     * @covers \App\Amounts\PrintAmount
-     */
     public function testExceptionWithStringInSetAmount()
     {
         $amount = new PrintAmount;
@@ -33,9 +30,6 @@ class PrintAmountTest extends TestCase
         $amount->setAmount('');
     }
 
-    /**
-     * @covers \App\Amounts\PrintAmount
-     */
     public function testExceptionWithArrayInSetAmount()
     {
         $amount = new PrintAmount;
@@ -43,9 +37,6 @@ class PrintAmountTest extends TestCase
         $amount->setAmount([]);
     }
 
-    /**
-     * @covers \App\Amounts\PrintAmount
-     */
     public function testSetCurrency()
     {
         $amount = new PrintAmount;
@@ -57,9 +48,6 @@ class PrintAmountTest extends TestCase
         $this->assertEquals($amount->getFormatedAmount(), '0.0000000001 EUR');
     }
 
-    /**
-     * @covers \App\Amounts\PrintAmount
-     */
     public function testExceptionWithIntInSetCurrency()
     {
         $amount = new PrintAmount;
@@ -67,9 +55,6 @@ class PrintAmountTest extends TestCase
         $amount->setCurrency(1);
     }
 
-    /**
-     * @covers \App\Amounts\PrintAmount
-     */
     public function testExceptionWithInvalidCurrencyInSetCurrency()
     {
         $amount = new PrintAmount;
@@ -77,9 +62,6 @@ class PrintAmountTest extends TestCase
         $amount->setCurrency('asdc');
     }
 
-    /**
-     * @covers \App\Amounts\PrintAmount
-     */
     public function testExceptionWithArrayInSetCurrency()
     {
         $amount = new PrintAmount;
@@ -87,9 +69,6 @@ class PrintAmountTest extends TestCase
         $amount->setCurrency([]);
     }
 
-    /**
-     * @covers \App\Amounts\PrintAmount
-     */
     public function testToString()
     {
         $amount = new PrintAmount;
