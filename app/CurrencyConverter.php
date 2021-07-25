@@ -29,7 +29,7 @@ class CurrencyConverter
             $this->setAmount($amount);
         if (null !== $quotations)
             $this->setQuotations($quotations);
-        if (null !== $quotation_parser && null !== $quotations)
+        if (null !== $quotation_parser && null !== $quotations && null !== $converter)
             $this->loadQuotations();
     }
 
