@@ -1,0 +1,2 @@
+#!/usr/bin/bash
+docker run -it --volume=`pwd`:/tmp -w /tmp php:7.4 bash -c "./console $1 $2 $3"
