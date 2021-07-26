@@ -1,0 +1,2 @@
+1 USD = 5.65 BRL
+1 EUR = 1.18 USD

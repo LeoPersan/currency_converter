@@ -7,8 +7,8 @@ use TypeError;
 
 class JsonFile implements QuotationInterface
 {
-    private $quotations;
-    private $currencies;
+    protected $quotations;
+    protected $currencies;
 
     public function loadQuotations($quotations)
     {
@@ -18,14 +18,25 @@ class JsonFile implements QuotationInterface
         if (!is_file($quotations))
             throw new FileNotFoundException($quotations);
 
-        $this->quotations = json_decode(file_get_contents($quotations));
+        $this->quotations = $this->parseQuotations($quotations);
         $this->currencies = [];
-        foreach ($this->quotations as $quotation) {
+        foreach ($this->quotations as &$quotation) {
+            $quotation = $this->parseQuotation($quotation);
             $this->currencies[] = $quotation->from;
             $this->currencies[] = $quotation->to;
         }
         $this->currencies = array_unique($this->currencies);
         return $this;
+    }
+
+    protected function parseQuotations($quotations)
+    {
+        return json_decode(file_get_contents($quotations));
+    }
+
+    protected function parseQuotation($quotation)
+    {
+        return $quotation;
     }
 
     public function getQuotations()
