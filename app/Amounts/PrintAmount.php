@@ -6,8 +6,8 @@ use InvalidArgumentException;
 
 class PrintAmount implements AmountInterface
 {
-    private $amount;
-    private $currency;
+    protected $amount;
+    protected $currency;
 
     public function setAmount(float $amount)
     {

@@ -8,8 +8,8 @@ use InvalidArgumentException;
 
 class Converter implements ConverterInterface
 {
-    private $quotation_parser;
-    private $skip = [];
+    protected $quotation_parser;
+    protected $skip = [];
 
     public function loadQuotations(QuotationInterface $quotation_parser)
     {
@@ -29,7 +29,7 @@ class Converter implements ConverterInterface
         return $this->converter($from, $to, $amount);
     }
 
-    private function converter(string $from, string $to, float $amount)
+    protected function converter(string $from, string $to, float $amount)
     {
         if ($from === $to || $amount === (float) 0)
             return $amount;

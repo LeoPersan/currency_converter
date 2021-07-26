@@ -10,11 +10,11 @@ use InvalidArgumentException;
 
 class CurrencyConverter
 {
-    private $quotations;
-    private $converter;
-    private $quotation_parser;
-    private $old_amount;
-    private $new_amount;
+    protected $quotations;
+    protected $converter;
+    protected $quotation_parser;
+    protected $old_amount;
+    protected $new_amount;
     
     public function __construct(QuotationInterface $quotation_parser = null,
                                 ConverterInterface $converter = null,
